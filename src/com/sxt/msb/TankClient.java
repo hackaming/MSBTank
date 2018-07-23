@@ -9,7 +9,6 @@ public class TankClient extends Frame {
 		TankClient tc = new TankClient();
 		tc.launchFrame();
 	}
-
 	public void launchFrame() {
 		this.setLocation(400, 300);
 		this.setSize(800, 600);
@@ -22,5 +21,11 @@ public class TankClient extends Frame {
 			}
 		});
 		this.setVisible(true);
+	}
+	public void paint(Graphics g) {
+		Color c = g.getColor();
+		g.setColor(Color.RED);
+		g.fillOval(50, 50, 30, 30);
+		g.setColor(c);
 	}
 }
