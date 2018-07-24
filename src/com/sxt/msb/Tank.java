@@ -7,15 +7,25 @@ import java.awt.event.KeyEvent;
 public class Tank {
 	public static final int XSPEED = 5;
 	public static final int YSPEED = 5;
+	public static final int WIDTH = 30;
+	public static final int HEIGHT = 30;
 	int x,y;
 	private boolean bL = false,bR = false,bU = false,bD = false;
 	private Direction dir = Direction.STOP;
+	private Direction ptDir = Direction.STOP;
 	enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
+	private TankClient tc = null;
 	
 	public Tank(int x,int y){
 		this.x = x;
 		this.y = y;
 	}
+	public Tank(int x,int y,TankClient tc){
+		this.x = x;
+		this.y = y;
+		this.tc = tc;
+	}
+	
 	public void draw(Graphics g){
 		Color c = g.getColor();
 		g.setColor(Color.RED);
@@ -56,8 +66,16 @@ public class Tank {
 		case KeyEvent.VK_DOWN:
 			bD = true;
 			break;
+		case KeyEvent.VK_S:
+			tc.m = fire();
 		}
 		locationDirection();
+	}
+	public Missile fire(){
+		int x = this.x + Tank.WIDTH/2 - Missile.MISSLEWIDTH /2;
+		int y = this.y + Tank.HEIGHT- Missile.MISSLEHEIGHT /2;
+		Missile m = new Missile(x,y,ptDir);
+		return m;
 	}
 	public void locationDirection(){
 		if (bL && !bU && !bR && !bD) dir = Direction.L;
@@ -69,6 +87,9 @@ public class Tank {
 		else if (!bL && !bU && bR && bD) dir = Direction.RD;
 		else if (bL && !bU && !bR && bD) dir = Direction.LD;
 		else if (!bL && !bU && !bR && !bD) dir = Direction.STOP;
+		if (dir != Direction.STOP){
+			ptDir = dir;
+		}
 	}
 	public void move(){
 		switch (dir){

@@ -13,7 +13,11 @@ public class Missile {
 	public Missile(int x,int y,Tank.Direction dir){
 		this.x = x;
 		this.y = y;
-		this.dir = dir;
+		if (dir != Tank.Direction.STOP){
+			this.dir = dir;
+		} else {
+			this.dir = Tank.Direction.U;
+		}
 	}
 	public void draw(Graphics g){
 		Color c = g.getColor();

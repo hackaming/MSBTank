@@ -12,7 +12,8 @@ public class TankClient extends Frame {
 	public static final int GAME_STARTX = 400;
 	public static final int GAME_STARTY = 100;
 	Image offScreenImage = null;
-	Tank myTank = new Tank(50, 50);
+	Tank myTank = new Tank(50, 50, this);
+	public Missile m = null;
 
 	@Override
 	public void update(Graphics g) {
@@ -53,6 +54,9 @@ public class TankClient extends Frame {
 	}
 
 	public void paint(Graphics g) {
+		if (m!=null){
+			m.draw(g);
+		}
 		myTank.draw(g);
 	}
 
