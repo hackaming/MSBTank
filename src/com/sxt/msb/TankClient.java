@@ -47,6 +47,7 @@ public class TankClient extends Frame {
 			}
 		});
 		this.addKeyListener(new KeyMonitor());
+		this.setBackground(Color.GREEN);
 		this.setVisible(true);
 		new Thread(new PaintThread()).start();
 	}
