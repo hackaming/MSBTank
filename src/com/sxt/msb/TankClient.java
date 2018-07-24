@@ -1,6 +1,8 @@
 package com.sxt.msb;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -40,6 +42,7 @@ public class TankClient extends Frame {
 				System.exit(0);
 			}
 		});
+		this.addKeyListener(new KeyMonitor());
 		this.setVisible(true);
 		new Thread(new PaintThread()).start();
 	}
@@ -56,11 +59,30 @@ public class TankClient extends Frame {
 			while(true){
 				repaint();
 				try{
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch(InterruptedException e){
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+	private class KeyMonitor extends KeyAdapter{
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			switch(key){
+			case KeyEvent.VK_LEFT:
+				x-=5;
+				break;
+			case KeyEvent.VK_RIGHT:
+				x+=5;
+				break;
+			case KeyEvent.VK_UP:
+				y-=5;
+				break;
+			case KeyEvent.VK_DOWN:
+				y+=5;
+				break;
+			}
+		}		
 	}
 }
