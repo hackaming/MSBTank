@@ -12,10 +12,11 @@ public class TankClient extends Frame {
 	public static final int GAME_STARTX = 400;
 	public static final int GAME_STARTY = 100;
 	Image offScreenImage = null;
-	
+	Tank myTank = new Tank(50, 50);
+
 	@Override
 	public void update(Graphics g) {
-		if (offScreenImage == null){
+		if (offScreenImage == null) {
 			offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
@@ -26,11 +27,14 @@ public class TankClient extends Frame {
 		paint(gOffScreen);
 		g.drawImage(offScreenImage, 0, 0, null);
 	}
-	int x=50,y=50;
+
+	int x = 50, y = 50;
+
 	public static void main(String[] argv) {
 		TankClient tc = new TankClient();
 		tc.launchFrame();
 	}
+
 	public void launchFrame() {
 		this.setLocation(GAME_STARTX, GAME_STARTY);
 		this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -46,43 +50,32 @@ public class TankClient extends Frame {
 		this.setVisible(true);
 		new Thread(new PaintThread()).start();
 	}
+
 	public void paint(Graphics g) {
-		Color c = g.getColor();
-		g.setColor(Color.RED);
-		g.fillOval(x, y, 30, 30);
-		g.setColor(c);
-		y += 5;
+		myTank.draw(g);
 	}
-	private class PaintThread implements Runnable{
+
+	private class PaintThread implements Runnable {
 		@Override
 		public void run() {
-			while(true){
+			while (true) {
 				repaint();
-				try{
+				try {
 					Thread.sleep(50);
-				} catch(InterruptedException e){
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	private class KeyMonitor extends KeyAdapter{
+
+	private class KeyMonitor extends KeyAdapter {
+		public void keyReleased(KeyEvent e) {
+			myTank.keyReleased(e);
+		}
+
 		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
-			switch(key){
-			case KeyEvent.VK_LEFT:
-				x-=5;
-				break;
-			case KeyEvent.VK_RIGHT:
-				x+=5;
-				break;
-			case KeyEvent.VK_UP:
-				y-=5;
-				break;
-			case KeyEvent.VK_DOWN:
-				y+=5;
-				break;
-			}
-		}		
+			myTank.keyPressed(e);
+		}
 	}
 }
