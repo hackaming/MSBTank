@@ -53,7 +53,11 @@ public class Missile {
 	public boolean hitTank(Tank t) {
 		if (this.getRect().intersects(t.getRect()) && t.isLive()) {
 			t.setLive(false);
-			this.isLive = false;
+			tc.tanks.remove(t);
+			this.isLive = false; 
+			tc.missiles.remove(this);
+			Explode e = new Explode(x,y,tc);
+			tc.explodes.add(e);
 			return false;
 		}
 		return false;

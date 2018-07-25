@@ -17,6 +17,7 @@ public class TankClient extends Frame {
 	Tank myTank = null;
 	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
+	List<Explode> explodes = new ArrayList<Explode>();
 	//public Missile m = null;
 
 	@Override
@@ -66,16 +67,24 @@ public class TankClient extends Frame {
 	}
 
 	public void paint(Graphics g) {
+		g.drawString("Missiles count:"+missiles.size(), 10, 50);
+		g.drawString("Tank count:"+tanks.size(), 10, 70);
+		
 		for (int i=0;i<missiles.size();i++){
+			Missile m = missiles.get(i);
+			m.draw(g);
 			for (int j=0;j<tanks.size();j++){
-				if (!tanks.get(j).good) {
-					missiles.get(i).hitTank(tanks.get(j));
+				Tank t = tanks.get(j);
+				if (!t.good) {
+					m.hitTank(t);
 				}
 			}
-			missiles.get(i).draw(g);
 		}
 		for (int i=0;i<tanks.size();i++){
 			tanks.get(i).draw(g);
+		}
+		for ( int i=0;i<explodes.size();i++){
+			explodes.get(i).draw(g);
 		}
 	}
 
