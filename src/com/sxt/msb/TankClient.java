@@ -18,7 +18,6 @@ public class TankClient extends Frame {
 	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
 	List<Explode> explodes = new ArrayList<Explode>();
-	//public Missile m = null;
 
 	@Override
 	public void update(Graphics g) {
@@ -69,7 +68,7 @@ public class TankClient extends Frame {
 	public void paint(Graphics g) {
 		g.drawString("Missiles count:"+missiles.size(), 10, 50);
 		g.drawString("Tank count:"+tanks.size(), 10, 70);
-		
+		g.drawString("Explode count:"+explodes.size(), 10, 90);
 		for (int i=0;i<missiles.size();i++){
 			Missile m = missiles.get(i);
 			m.draw(g);

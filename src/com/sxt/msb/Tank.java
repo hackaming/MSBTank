@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Tank {
 	public static final int XSPEED = 5;
@@ -14,7 +15,7 @@ public class Tank {
 	private boolean bL = false, bR = false, bU = false, bD = false;
 	private boolean isLive = true;
 	private Direction dir = Direction.STOP;
-	private Direction ptDir = Direction.STOP;
+	private Direction ptDir = Direction.D;
 
 	enum Direction {
 		L, LU, U, RU, R, RD, D, LD, STOP
@@ -22,6 +23,8 @@ public class Tank {
 
 	private TankClient tc = null;
 	boolean good = true;
+	private static Random r = new Random();
+	private int step = r.nextInt(12) + 3;
 
 	public Tank(int x, int y) {
 		this.x = x;
@@ -34,7 +37,7 @@ public class Tank {
 		this.tc = tc;
 	}
 
-	public Tank(int x,int y,TankClient tc,boolean good){
+	public Tank(int x, int y, TankClient tc, boolean good) {
 		this.x = x;
 		this.y = y;
 		this.tc = tc;
@@ -42,15 +45,17 @@ public class Tank {
 	}
 
 	public void draw(Graphics g) {
-		if (!isLive){
+		if (!isLive) {
 			return;
 		}
 		Color c = g.getColor();
-		if (good) 	g.setColor(Color.RED);
-		else g.setColor(Color.YELLOW);
+		if (good)
+			g.setColor(Color.RED);
+		else
+			g.setColor(Color.YELLOW);
 		g.fillOval(x, y, 30, 30);
 		g.setColor(c);
-		
+
 		switch (ptDir) {
 		case L:
 			g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y + Tank.HEIGHT / 2);
@@ -119,8 +124,9 @@ public class Tank {
 		}
 		locationDirection();
 	}
-	public Rectangle getRect(){
-		return new Rectangle(x,y,WIDTH,HEIGHT);
+
+	public Rectangle getRect() {
+		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 
 	public Missile fire() {
@@ -196,6 +202,17 @@ public class Tank {
 			x = TankClient.GAME_WIDTH - Tank.WIDTH;
 		if (y + Tank.HEIGHT > TankClient.GAME_HEIGHT)
 			y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
+		if (!good) {
+			Direction[] dirs = Direction.values();
+			if (step == 0) {
+				step = r.nextInt(12) + 3;
+				int rn = r.nextInt(dirs.length);
+				dir = dirs[rn];
+			}
+			step--;
+			if (r.nextInt(40) > 38)
+				this.fire();
+		}
 	}
 
 	public boolean isLive() {
