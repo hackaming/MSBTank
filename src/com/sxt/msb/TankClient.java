@@ -67,6 +67,11 @@ public class TankClient extends Frame {
 
 	public void paint(Graphics g) {
 		for (int i=0;i<missiles.size();i++){
+			for (int j=0;j<tanks.size();j++){
+				if (!tanks.get(j).good) {
+					missiles.get(i).hitTank(tanks.get(j));
+				}
+			}
 			missiles.get(i).draw(g);
 		}
 		for (int i=0;i<tanks.size();i++){

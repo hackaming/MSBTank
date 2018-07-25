@@ -2,6 +2,7 @@ package com.sxt.msb;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Tank {
@@ -11,6 +12,7 @@ public class Tank {
 	public static final int HEIGHT = 30;
 	int x, y;
 	private boolean bL = false, bR = false, bU = false, bD = false;
+	private boolean isLive = true;
 	private Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.STOP;
 
@@ -40,17 +42,15 @@ public class Tank {
 	}
 
 	public void draw(Graphics g) {
-		if (good) {
-			Color c = g.getColor();
-			g.setColor(Color.RED);
-			g.fillOval(x, y, 30, 30);
-			g.setColor(c);
-		} else {
-			Color c = g.getColor();
-			g.setColor(Color.YELLOW);
-			g.fillOval(x, y, 30, 30);
-			g.setColor(c);
+		if (!isLive){
+			return;
 		}
+		Color c = g.getColor();
+		if (good) 	g.setColor(Color.RED);
+		else g.setColor(Color.YELLOW);
+		g.fillOval(x, y, 30, 30);
+		g.setColor(c);
+		
 		switch (ptDir) {
 		case L:
 			g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y + Tank.HEIGHT / 2);
@@ -118,6 +118,9 @@ public class Tank {
 			fire();
 		}
 		locationDirection();
+	}
+	public Rectangle getRect(){
+		return new Rectangle(x,y,WIDTH,HEIGHT);
 	}
 
 	public Missile fire() {
@@ -193,5 +196,13 @@ public class Tank {
 			x = TankClient.GAME_WIDTH - Tank.WIDTH;
 		if (y + Tank.HEIGHT > TankClient.GAME_HEIGHT)
 			y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
+	}
+
+	public boolean isLive() {
+		return isLive;
+	}
+
+	public void setLive(boolean isLive) {
+		this.isLive = isLive;
 	}
 }
