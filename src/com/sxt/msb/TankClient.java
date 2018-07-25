@@ -14,7 +14,8 @@ public class TankClient extends Frame {
 	public static final int GAME_STARTX = 400;
 	public static final int GAME_STARTY = 100;
 	Image offScreenImage = null;
-	Tank myTank = new Tank(50, 50, this);
+	Tank myTank = null;
+	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
 	//public Missile m = null;
 
@@ -54,13 +55,23 @@ public class TankClient extends Frame {
 		this.setBackground(Color.GREEN);
 		this.setVisible(true);
 		new Thread(new PaintThread()).start();
+		myTank = new Tank(50, 50, this);
+		
+		tanks.add(myTank);
+		
+	}
+	public void generateBadTank(){
+		Tank badTank = new Tank(50, 50, this,false);
+		tanks.add(badTank);
 	}
 
 	public void paint(Graphics g) {
 		for (int i=0;i<missiles.size();i++){
 			missiles.get(i).draw(g);
 		}
-		myTank.draw(g);
+		for (int i=0;i<tanks.size();i++){
+			tanks.get(i).draw(g);
+		}
 	}
 
 	private class PaintThread implements Runnable {
@@ -83,6 +94,9 @@ public class TankClient extends Frame {
 		}
 
 		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_F1){
+				generateBadTank();
+			}
 			myTank.keyPressed(e);
 		}
 	}
