@@ -5,6 +5,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankClient extends Frame {
 	public static final int GAME_WIDTH = 800;
@@ -13,7 +15,8 @@ public class TankClient extends Frame {
 	public static final int GAME_STARTY = 100;
 	Image offScreenImage = null;
 	Tank myTank = new Tank(50, 50, this);
-	public Missile m = null;
+	List<Missile> missiles= new ArrayList<Missile>();
+	//public Missile m = null;
 
 	@Override
 	public void update(Graphics g) {
@@ -54,8 +57,8 @@ public class TankClient extends Frame {
 	}
 
 	public void paint(Graphics g) {
-		if (m!=null){
-			m.draw(g);
+		for (int i=0;i<missiles.size();i++){
+			missiles.get(i).draw(g);
 		}
 		myTank.draw(g);
 	}
