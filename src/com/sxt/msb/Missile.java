@@ -9,10 +9,21 @@ public class Missile {
 	public static final int MISSLEWIDTH = 10;
 	public static final int MISSLEHEIGHT = 10;
 	Tank.Direction dir;
+	TankClient tc = null;
 	int x,y;
 	public Missile(int x,int y,Tank.Direction dir){
 		this.x = x;
 		this.y = y;
+		if (dir != Tank.Direction.STOP){
+			this.dir = dir;
+		} else {
+			this.dir = Tank.Direction.U;
+		}
+	}
+	public Missile(int x,int y,Tank.Direction dir,TankClient tc){
+		this.x = x;
+		this.y = y;
+		this.tc = tc;
 		if (dir != Tank.Direction.STOP){
 			this.dir = dir;
 		} else {
@@ -56,6 +67,9 @@ public class Missile {
 			y+=YSPEED;
 			x-=XSPEED;
 			break;
+		}
+		if(x < 0 || y < 0 || x > TankClient.GAME_WIDTH || y > TankClient.GAME_HEIGHT) {
+			tc.missiles.remove(this);
 		}
 	}
 }

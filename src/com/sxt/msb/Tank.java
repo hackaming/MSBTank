@@ -93,14 +93,15 @@ public class Tank {
 			bD = true;
 			break;
 		case KeyEvent.VK_S:
-			tc.missiles.add(fire());
+			fire();
 		}
 		locationDirection();
 	}
 	public Missile fire(){
 		int x = this.x + Tank.WIDTH/2 - Missile.MISSLEWIDTH /2;
 		int y = this.y + Tank.HEIGHT- Missile.MISSLEHEIGHT /2;
-		Missile m = new Missile(x,y,ptDir);
+		Missile m = new Missile(x,y,ptDir,tc);
+		tc.missiles.add(m);
 		return m;
 	}
 	public void locationDirection(){
@@ -150,5 +151,9 @@ public class Tank {
 		case STOP:
 			break;
 		}
+		if(x < 0) x = 0;
+		if(y < 30) y = 30;
+		if(x + Tank.WIDTH > TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH - Tank.WIDTH;
+		if(y + Tank.HEIGHT > TankClient.GAME_HEIGHT) y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
 	}
 }
