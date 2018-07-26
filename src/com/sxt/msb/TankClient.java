@@ -18,6 +18,7 @@ public class TankClient extends Frame {
 	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
 	List<Explode> explodes = new ArrayList<Explode>();
+	NetClient nc = new NetClient();
 
 	@Override
 	public void update(Graphics g) {
@@ -58,6 +59,7 @@ public class TankClient extends Frame {
 		myTank = new Tank(50, 50, this);
 		
 		tanks.add(myTank);
+		nc.connect("127.0.0.1", TankServer.TCPPORT);
 		
 	}
 	public void generateBadTank(){
