@@ -9,29 +9,29 @@ public class Missile {
 	public static final int YSPEED = 10;
 	public static final int MISSLEWIDTH = 10;
 	public static final int MISSLEHEIGHT = 10;
-	Tank.Direction dir;
+	Direction dir;
 	TankClient tc = null;
 	int x, y;
 	boolean isLive = true;
 
-	public Missile(int x, int y, Tank.Direction dir) {
+	public Missile(int x, int y, Direction dir) {
 		this.x = x;
 		this.y = y;
-		if (dir != Tank.Direction.STOP) {
+		if (dir != Direction.STOP) {
 			this.dir = dir;
 		} else {
-			this.dir = Tank.Direction.U;
+			this.dir = Direction.U;
 		}
 	}
 
-	public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
+	public Missile(int x, int y, Direction dir, TankClient tc) {
 		this.x = x;
 		this.y = y;
 		this.tc = tc;
-		if (dir != Tank.Direction.STOP) {
+		if (dir != Direction.STOP) {
 			this.dir = dir;
 		} else {
-			this.dir = Tank.Direction.U;
+			this.dir = Direction.U;
 		}
 	}
 

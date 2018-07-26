@@ -17,10 +17,6 @@ public class Tank {
 	private Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;
 
-	enum Direction {
-		L, LU, U, RU, R, RD, D, LD, STOP
-	};
-
 	private TankClient tc = null;
 	boolean good = true;
 	private static Random r = new Random();
