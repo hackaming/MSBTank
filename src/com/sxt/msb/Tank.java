@@ -15,7 +15,7 @@ public class Tank {
 	int x, y;
 	private boolean bL = false, bR = false, bU = false, bD = false;
 	private boolean isLive = true;
-	private Direction dir = Direction.STOP;
+	Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;
 
 	private TankClient tc = null;
@@ -39,6 +39,14 @@ public class Tank {
 		this.y = y;
 		this.tc = tc;
 		this.good = good;
+	}
+
+	public Tank(int x, int y, TankClient tc, boolean good,Direction dir) {
+		this.x = x;
+		this.y = y;
+		this.tc = tc;
+		this.good = good;
+		this.dir = dir;
 	}
 
 	public void draw(Graphics g) {

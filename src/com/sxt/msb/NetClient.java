@@ -1,16 +1,25 @@
 package com.sxt.msb;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.io.*;
 public class NetClient {
 	private static int UDP_PORT_START = 2223;
 	private int udpPort;
 	TankClient tc = null;
+	DatagramSocket ds = null;
 	public NetClient(TankClient tc){
 		udpPort = UDP_PORT_START ++;
 		this.tc = tc;
+		try {
+			ds = new DatagramSocket(udpPort);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 	}
 	public void connect(String sIP,int port){
 		Socket s = null;
@@ -35,5 +44,44 @@ public class NetClient {
 				s = null;
 			}
 		}
+		// send some message
+		TankNewMsg msg = new TankNewMsg(tc.myTank);
+		send(msg);
+		new Thread(new UDPThread()).start();
+	}
+	public void send(TankNewMsg msg){
+		msg.send(ds, "127.0.0.1", TankServer.UDPPORT);
+	}
+	private class UDPThread implements Runnable{
+		byte[] buf = new byte[1024];
+		public void run() {
+			while (ds!=null){
+				DatagramPacket dp = new DatagramPacket(buf,buf.length);
+				try {
+					ds.receive(dp);
+					System.out.println("Received a packet from server!");
+					parse(dp);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		private void parse(DatagramPacket dp){
+			ByteArrayInputStream bais = new ByteArrayInputStream(buf,0,dp.getLength()); //bug will show, because the buf's used to receive!!but don't change it for now as MSB havn't yet change the code.
+			DataInputStream dis = new DataInputStream (bais);
+			try {
+				int msgType = dis.readInt();
+				switch (msgType){
+				case Msg.TANK_NEW_MSG:
+					TankNewMsg msg = new TankNewMsg(tc);
+					msg.parse(dis);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }
