@@ -18,7 +18,7 @@ public class TankClient extends Frame {
 	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
 	List<Explode> explodes = new ArrayList<Explode>();
-	NetClient nc = new NetClient();
+	NetClient nc = new NetClient(this);
 
 	@Override
 	public void update(Graphics g) {

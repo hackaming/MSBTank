@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class Tank {
+	int id;
 	public static final int XSPEED = 5;
 	public static final int YSPEED = 5;
 	public static final int WIDTH = 30;
