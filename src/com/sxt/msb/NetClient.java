@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.io.*;
 public class NetClient {
-	private static int UDP_PORT_START = 2221;
+	private static int UDP_PORT_START = 2227;
 	private int udpPort;
 	TankClient tc = null;
 	DatagramSocket ds = null;
@@ -49,7 +49,7 @@ public class NetClient {
 		send(msg);
 		new Thread(new UDPThread()).start();
 	}
-	public void send(TankNewMsg msg){
+	public void send(Msg msg){
 		msg.send(ds, "127.0.0.1", TankServer.UDPPORT);
 	}
 	private class UDPThread implements Runnable{
@@ -72,10 +72,17 @@ public class NetClient {
 			DataInputStream dis = new DataInputStream (bais);
 			try {
 				int msgType = dis.readInt();
+				System.out.println("Message type is:" + msgType);
+				Msg msg = null;
 				switch (msgType){
 				case Msg.TANK_NEW_MSG:
-					TankNewMsg msg = new TankNewMsg(tc);
+					msg = new TankNewMsg(NetClient.this.tc);
 					msg.parse(dis);
+					break;
+				case Msg.TANK_MOVE_MSG:
+					msg = new TankMoveMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

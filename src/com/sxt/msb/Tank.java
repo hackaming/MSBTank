@@ -143,6 +143,7 @@ public class Tank {
 	}
 
 	public void locationDirection() {
+		Direction oldDir = this.dir;
 		if (bL && !bU && !bR && !bD)
 			dir = Direction.L;
 		else if (!bL && bU && !bR && !bD)
@@ -163,6 +164,11 @@ public class Tank {
 			dir = Direction.STOP;
 		if (dir != Direction.STOP) {
 			ptDir = dir;
+		}
+		if (oldDir != this.dir){
+			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc);
+			System.out.println("From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
+			tc.nc.send(msg);
 		}
 	}
 

@@ -1,5 +1,4 @@
 package com.sxt.msb;
-import java.io.IOException;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -73,16 +72,39 @@ public class TankServer {
 					DatagramPacket dp = new DatagramPacket(buf,buf.length);
 					try {
 						ds.receive(dp);
+						parse(dp);//debu only, print the message type of the packet.
 						for (int i=0;i<clients.size();i++){
 							Client c = clients.get(i);
 							dp.setSocketAddress(new InetSocketAddress(c.sIP,c.iUDPPort));
 							ds.send(dp);
+							System.out.println("A package was sent out to a client.");
 						}
-						System.out.println("a packet received!");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
+		}
+		private void parse(DatagramPacket dp){ // for debug only
+			ByteArrayInputStream bais = new ByteArrayInputStream(buf,0,dp.getLength()); //bug will show, because the buf's used to receive!!but don't change it for now as MSB havn't yet change the code.
+			DataInputStream dis = new DataInputStream (bais);
+			try {
+				int msgType = dis.readInt();
+				System.out.println("Get a packet from the TankClient.Message type is:" + msgType);
+				//Msg msg = null;
+/*				switch (msgType){
+				case Msg.TANK_NEW_MSG:
+					msg = new TankNewMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
+				case Msg.TANK_MOVE_MSG:
+					msg = new TankMoveMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
+				}*/
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

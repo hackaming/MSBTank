@@ -9,24 +9,24 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-public class TankNewMsg {
-	int msgType = Msg.TANK_NEW_MSG;
+public class TankNewMsg implements Msg{
+	int msgType;
 	Tank tank;
 	TankClient tc;
 	public TankNewMsg(Tank tank){
 		this.tank = tank;
-	}
-	public TankNewMsg(){
-		
+		this.msgType = Msg.TANK_NEW_MSG;
 	}
 	public TankNewMsg(TankClient tc){
 		this.tc = tc;
+		this.msgType = Msg.TANK_NEW_MSG;
 	}
 	public void parse(DataInputStream dis){
 		try {
 			int tankid = dis.readInt();
-			System.out.println(tc.myTank.id+"---->This is my tank id, is it null?debug use only!");
-			System.out.println(tankid+"---->This is the tank id get from server, is it null?debug use only!");
+			//System.out.println(tc.myTank.id+"---->This is my tank id, is it null?debug use only!");
+			//System.out.println(tankid+"---->This is the tank id get from server, is it null?debug use only!");
+			System.out.println("Tank New Msg was called to parse msesage!");
 			if ((tc.myTank.id == tankid)){
 				return;
 			}
@@ -45,6 +45,9 @@ public class TankNewMsg {
 				}
 			}
 			if (!bExist){
+				TankNewMsg tnMsg = new TankNewMsg(tc.myTank);
+				tc.nc.send(tnMsg); //announce?
+				
 				Tank t = new Tank(x,y,tc,good,dir);
 				t.id = tankid;
 				tc.tanks.add(t);
@@ -59,6 +62,7 @@ public class TankNewMsg {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
+			System.out.println("Construct the TankNewMsg, Type is:"+msgType);
 			dos.writeInt(msgType);
 			dos.writeInt(tank.id);
 			dos.writeInt(tank.x);
@@ -73,6 +77,7 @@ public class TankNewMsg {
 		try {
 			DatagramPacket dp = new DatagramPacket(buf,buf.length,new InetSocketAddress(sIP,udpPort));
 			ds.send(dp);
+			System.out.println("A Tank new Msg was sent out!");
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
