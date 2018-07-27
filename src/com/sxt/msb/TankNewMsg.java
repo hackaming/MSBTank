@@ -25,14 +25,31 @@ public class TankNewMsg {
 	public void parse(DataInputStream dis){
 		try {
 			int tankid = dis.readInt();
+			System.out.println(tc.myTank.id+"---->This is my tank id, is it null?debug use only!");
+			System.out.println(tankid+"---->This is the tank id get from server, is it null?debug use only!");
+			if ((tc.myTank.id == tankid)){
+				return;
+			}
 			int x = dis.readInt();
 			int y = dis.readInt();
 			Direction dir = Direction.values()[dis.readInt()];
 			boolean good = dis.readBoolean();
 			System.out.println("id:" + tankid + "-x:" + x + "-y:" + y + "-dir:" + dir + "-good:" + good);
-			Tank t = new Tank(x,y,tc,good,dir);
-			t.id = tankid;
-			tc.tanks.add(t);
+			// confirm if the tc's exist
+			boolean bExist = false;
+			for (int i=0;i<tc.tanks.size();i++){
+				Tank t = tc.tanks.get(i);
+				if (t.id == tankid){
+					bExist = true;
+					break;
+				}
+			}
+			if (!bExist){
+				Tank t = new Tank(x,y,tc,good,dir);
+				t.id = tankid;
+				tc.tanks.add(t);
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
