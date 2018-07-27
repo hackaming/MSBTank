@@ -8,21 +8,22 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.io.*;
 public class NetClient {
-	private static int UDP_PORT_START = 2230;
+	private static int UDP_PORT_START = 2246;
 	private int udpPort;
 	TankClient tc = null;
 	DatagramSocket ds = null;
 	public NetClient(TankClient tc){
-		udpPort = UDP_PORT_START ++;
 		this.tc = tc;
+	}
+	public void connect(String sIP,int port){
+		Socket s = null;
+		
 		try {
 			ds = new DatagramSocket(udpPort);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-	}
-	public void connect(String sIP,int port){
-		Socket s = null;
+		
 		try {
 			s = new Socket(sIP,port);
 			DataOutputStream dos= new DataOutputStream(s.getOutputStream());
@@ -90,5 +91,11 @@ public class NetClient {
 			}
 		}
 		
+	}
+	public int getUdpPort() {
+		return udpPort;
+	}
+	public void setUdpPort(int udpPort) {
+		this.udpPort = udpPort;
 	}
 }
