@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.io.*;
 public class NetClient {
-	private static int UDP_PORT_START = 2227;
+	private static int UDP_PORT_START = 2230;
 	private int udpPort;
 	TankClient tc = null;
 	DatagramSocket ds = null;

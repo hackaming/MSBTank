@@ -77,9 +77,7 @@ public class TankClient extends Frame {
 			m.draw(g);
 			for (int j=0;j<tanks.size();j++){
 				Tank t = tanks.get(j);
-				if (!t.good) {
-					m.hitTank(t);
-				}
+				if (t.id!=myTank.id) m.hitTank(t);
 			}
 		}
 		for (int i=0;i<tanks.size();i++){
