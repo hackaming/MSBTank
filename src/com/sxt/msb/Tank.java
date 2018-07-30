@@ -16,7 +16,7 @@ public class Tank {
 	private boolean bL = false, bR = false, bU = false, bD = false;
 	private boolean isLive = true;
 	Direction dir = Direction.STOP;
-	private Direction ptDir = Direction.D;
+	Direction ptDir = Direction.D;
 
 	private TankClient tc = null;
 	boolean good = true;
@@ -166,7 +166,7 @@ public class Tank {
 			ptDir = dir;
 		}
 		if (oldDir != this.dir){
-			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc);
+			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc,ptDir);
 			System.out.println("From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
 			tc.nc.send(msg);
 		}

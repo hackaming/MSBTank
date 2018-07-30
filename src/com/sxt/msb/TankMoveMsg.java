@@ -16,13 +16,15 @@ public class TankMoveMsg  implements Msg{
 	private int x;
 	private int y;
 	private Direction dir;
+	private Direction ptDir;
 	TankClient tc;
-	public TankMoveMsg(int id, int x, int y, Direction dir,TankClient tc) {
+	public TankMoveMsg(int id, int x, int y, Direction dir,TankClient tc,Direction ptDir) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.tc = tc;
+		this.ptDir = ptDir;
 		this.msgType = Msg.TANK_MOVE_MSG;
 	}
 	public TankMoveMsg(TankClient tc) {
@@ -41,6 +43,7 @@ public class TankMoveMsg  implements Msg{
 			dos.writeInt(y);
 			dos.writeInt(id);
 			dos.writeInt(dir.ordinal());
+			dos.writeInt(ptDir.ordinal());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +69,7 @@ public class TankMoveMsg  implements Msg{
 			int y = dis.readInt();
 			int id = dis.readInt();
 			Direction dir =Direction.values()[ dis.readInt()];
+			Direction ptDir =Direction.values()[ dis.readInt()];
 			if (id == tc.myTank.id){
 				return;
 			}
@@ -77,6 +81,7 @@ public class TankMoveMsg  implements Msg{
 					t.x = x;
 					t.y = y;
 					t.dir = dir;
+					t.ptDir = ptDir; //note that many of the local variable needs to be set to private and setup the getters and setters.
 					bExist = true;
 					System.out.println("x and y of the tank after change:"+t.x+"    "+t.y);
 					break;
