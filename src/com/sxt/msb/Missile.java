@@ -9,6 +9,7 @@ public class Missile {
 	public static final int YSPEED = 10;
 	public static final int MISSLEWIDTH = 10;
 	public static final int MISSLEHEIGHT = 10;
+	int tankid;
 	Direction dir;
 	TankClient tc = null;
 	int x, y;
@@ -24,10 +25,11 @@ public class Missile {
 		}
 	}
 
-	public Missile(int x, int y, Direction dir, TankClient tc) {
+	public Missile(int x, int y, Direction dir, TankClient tc,int tankid) {
 		this.x = x;
 		this.y = y;
 		this.tc = tc;
+		this.tankid = tankid;
 		if (dir != Direction.STOP) {
 			this.dir = dir;
 		} else {

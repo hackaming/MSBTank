@@ -84,6 +84,10 @@ public class NetClient {
 					msg = new TankMoveMsg(NetClient.this.tc);
 					msg.parse(dis);
 					break;
+				case Msg.MISSILE_NEW_MSG:
+					msg = new MissileNewMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

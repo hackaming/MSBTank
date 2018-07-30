@@ -47,6 +47,7 @@ public class Tank {
 		this.tc = tc;
 		this.good = good;
 		this.dir = dir;
+
 	}
 
 	public void draw(Graphics g) {
@@ -137,8 +138,11 @@ public class Tank {
 	public Missile fire() {
 		int x = this.x + Tank.WIDTH / 2 - Missile.MISSLEWIDTH / 2;
 		int y = this.y + Tank.HEIGHT - Missile.MISSLEHEIGHT / 2;
-		Missile m = new Missile(x, y, ptDir, tc);
+		Missile m = new Missile(x, y, ptDir, tc,id);
 		tc.missiles.add(m);
+		MissileNewMsg mns = new MissileNewMsg(x,y,tc,tc.myTank,dir,id);
+		System.out.println("New missile generated, id is:" + id);
+		tc.nc.send(mns);
 		return m;
 	}
 
