@@ -17,9 +17,10 @@ public class MissileNewMsg implements Msg{
 	int tankid;
 	Tank t;
 	Direction dir;
-	public MissileNewMsg(TankClient tc){
+	public MissileNewMsg(TankClient tc,int tankid){
 		this.tc = tc;
-		System.out.println("New MissileNewMsg was created, no tankdid!!!");
+		this.tankid = tankid;
+		System.out.println("New MissileNewMsg was created, tankid is:" + tankid);
 	}
 	public MissileNewMsg(int x,int y,TankClient tc,Tank t,Direction dir,int tankid){
 		this.x = x;
@@ -64,7 +65,7 @@ public class MissileNewMsg implements Msg{
 			int y = dis.readInt();
 			int id = dis.readInt();
 			this.dir = Direction.values()[dis.readInt()];
-			if (id == this.tankid){
+			if (id == tc.myTank.id){
 				return;
 			}
 			System.out.println("Tank id of MissileNewMsg is:" + tankid + "   Need to check if tank id is equal to the id received in the packet!");

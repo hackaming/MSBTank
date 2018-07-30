@@ -85,7 +85,7 @@ public class NetClient {
 					msg.parse(dis);
 					break;
 				case Msg.MISSILE_NEW_MSG:
-					msg = new MissileNewMsg(NetClient.this.tc);
+					msg = new MissileNewMsg(NetClient.this.tc,tc.myTank.id);
 					msg.parse(dis);
 					break;
 				}
