@@ -9,6 +9,7 @@ public class Missile {
 	public static final int YSPEED = 10;
 	public static final int MISSLEWIDTH = 10;
 	public static final int MISSLEHEIGHT = 10;
+	public static int missileID = 0;
 	int tankid;
 	Direction dir;
 	TankClient tc = null;
@@ -17,6 +18,7 @@ public class Missile {
 	boolean isGood;
 
 	public Missile(int x, int y, Direction dir,boolean isGood) {
+		missileID ++;
 		this.x = x;
 		this.y = y;
 		this.isGood = isGood;
@@ -27,6 +29,7 @@ public class Missile {
 		}
 	}
 	public Missile(int x, int y, Direction dir,int tankid,boolean isGood) {
+		missileID++;
 		this.x = x;
 		this.y = y;
 		this.tankid = tankid;
@@ -38,6 +41,7 @@ public class Missile {
 		}
 	}
 	public Missile(int x, int y, Direction dir, TankClient tc,int tankid,boolean isGood) {
+		missileID++;
 		this.x = x;
 		this.y = y;
 		this.tc = tc;

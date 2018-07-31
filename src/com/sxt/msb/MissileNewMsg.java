@@ -37,6 +37,7 @@ public class MissileNewMsg implements Msg{ //should add some id to the message s
 			//dos.writeInt(this.tankid);
 			dos.writeInt(m.dir.ordinal());
 			dos.writeBoolean(m.isGood);
+			dos.writeInt(m.missileID);
 			//dos.writeInt(1); //debug only
 			System.out.println("msg type is:"+Msg.MISSILE_NEW_MSG+"New packet's write to dos,x is:"+m.x+" y is:"+m.y+" tank id is:"+m.tankid+" dir is:"+m.dir.ordinal());
 		} catch (IOException e) {
@@ -80,8 +81,24 @@ public class MissileNewMsg implements Msg{ //should add some id to the message s
 			}
 			Direction dir = Direction.values()[dis.readInt()];
 			boolean isGood = dis.readBoolean();
-			Missile m1 = new Missile(x, y, dir, tc,id,isGood);
-			tc.missiles.add(m1);    // here sould be some gus, does it need to send out, how to disginguish if the missile's myself and re-send?
+			int missileID = dis.readInt(); // get the missile id and check if it is exists in the list.
+			boolean bExist = false;
+			for (int i=0;i<tc.tanks.size();i++){// found the tank first, then check if the missile's already added, other wise get rid of it.
+				if (tc.tanks.get(i).id == id){
+					for (int j=0;j<tc.missiles.size();j++){
+						if (missileID == tc.missiles.get(j).missileID){
+							bExist = true;
+						}
+					}
+				}
+			}
+			if (!bExist){
+				Missile m1 = new Missile(x, y, dir, tc,id,isGood);
+				tc.missiles.add(m1);    // here sould be some gus, does it need to send out, how to disginguish if the missile's myself and re-send?
+				System.out.println(m1.missileID+" is added to missiles list! missiles size is:" + tc.missiles.size());
+			} else {
+				System.out.println("The missile's listed in the missiles list. Get rid of it! missiles size is:" + tc.missiles.size());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
