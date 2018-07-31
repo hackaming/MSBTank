@@ -30,6 +30,11 @@ public class NetClient {
 			dos.writeInt(udpPort);
 			DataInputStream dis =  new DataInputStream(s.getInputStream()); // get the tank id and bind it.
 			tc.myTank.id=dis.readInt();
+			if (tc.myTank.id %2 == 0){
+				tc.myTank.good = true;
+			} else {
+				tc.myTank.good = false;
+			}
 			System.out.println("Connected to Server, get tank id is:" + tc.myTank.id);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
