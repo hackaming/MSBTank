@@ -138,7 +138,7 @@ public class Tank {
 	public Missile fire() {
 		int x = this.x + Tank.WIDTH / 2 - Missile.MISSLEWIDTH / 2;
 		int y = this.y + Tank.HEIGHT - Missile.MISSLEHEIGHT / 2;
-		Missile m = new Missile(x, y, ptDir, tc,id);
+		Missile m = new Missile(x, y, ptDir, tc,id,this.good);
 		tc.missiles.add(m);
 		MissileNewMsg mns = new MissileNewMsg(m);
 		System.out.println("New missile generated, id is:" + id);

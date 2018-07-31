@@ -14,27 +14,42 @@ public class Missile {
 	TankClient tc = null;
 	int x, y;
 	boolean isLive = true;
+	boolean isGood;
 
-	public Missile(int x, int y, Direction dir) {
+	public Missile(int x, int y, Direction dir,boolean isGood) {
 		this.x = x;
 		this.y = y;
+		this.isGood = isGood;
 		if (dir != Direction.STOP) {
 			this.dir = dir;
 		} else {
 			this.dir = Direction.U;
 		}
 	}
-
-	public Missile(int x, int y, Direction dir, TankClient tc,int tankid) {
+	public Missile(int x, int y, Direction dir,int tankid,boolean isGood) {
 		this.x = x;
 		this.y = y;
-		this.tc = tc;
 		this.tankid = tankid;
+		this.isGood = isGood;
 		if (dir != Direction.STOP) {
 			this.dir = dir;
 		} else {
 			this.dir = Direction.U;
 		}
+	}
+	public Missile(int x, int y, Direction dir, TankClient tc,int tankid,boolean isGood) {
+		this.x = x;
+		this.y = y;
+		this.tc = tc;
+		this.tankid = tankid;
+		this.isGood = isGood;
+		if (dir != Direction.STOP) {
+			this.dir = dir;
+		} else {
+			this.dir = Direction.U;
+		}
+		System.out.println("A new Missile's generated. x,y,tank id and dir is:" + x+"  " +y+ "  " +tankid+ "  " +dir+ " ");
+		System.out.println("This dir is:"+this.dir);
 	}
 
 	public void draw(Graphics g) {
@@ -53,7 +68,7 @@ public class Missile {
 	}
 
 	public boolean hitTank(Tank t) {
-		if (this.getRect().intersects(t.getRect()) && t.isLive()) {
+		if (this.getRect().intersects(t.getRect()) && t.isLive() && this.isLive && (t.good != this.isGood)) {
 			t.setLive(false);
 			tc.tanks.remove(t);
 			this.isLive = false; 

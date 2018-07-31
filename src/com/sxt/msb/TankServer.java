@@ -89,7 +89,15 @@ public class TankServer {
 			DataInputStream dis = new DataInputStream (bais);
 			try {
 				int msgType = dis.readInt();
-				System.out.println("Get a packet from the TankClient.Message type is:" + msgType);
+				System.out.println("Server:Get a packet from the TankClient.Message type is:" + msgType);
+				 if (msgType == 3){
+						int x = dis.readInt();
+						int y = dis.readInt();
+						int id = dis.readInt();
+						System.out.println("Server:parse the it in missile new messag:x is:" + x + " y is:" + y + " id is:" + id);
+						Direction dir = Direction.values()[dis.readInt()];
+						System.out.println("Server:Datagram packet's parsed: x,y,id is:"+x+"  "+y+"  "+"  "+id +"now, added it into tc.misiles array list,dir is"+dir);
+				 }
 				//Msg msg = null;
 /*				switch (msgType){
 				case Msg.TANK_NEW_MSG:

@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-public class MissileNewMsg implements Msg{
+public class MissileNewMsg implements Msg{ //should add some id to the message so when the tankclient receive it, it will not re-write it when it added to the missileslist.
 	DatagramSocket ds = null;
 	Missile m;
 	//private int x;
@@ -31,12 +31,14 @@ public class MissileNewMsg implements Msg{
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
 			dos.writeInt(Msg.MISSILE_NEW_MSG); //message type;
+			dos.writeInt(m.tankid);
 			dos.writeInt(m.x);
 			dos.writeInt(m.y);
-			dos.writeInt(m.tankid);
 			//dos.writeInt(this.tankid);
 			dos.writeInt(m.dir.ordinal());
-			//System.out.println("New packet's write to dos, id is:"+this.tankid);
+			dos.writeBoolean(m.isGood);
+			//dos.writeInt(1); //debug only
+			System.out.println("msg type is:"+Msg.MISSILE_NEW_MSG+"New packet's write to dos,x is:"+m.x+" y is:"+m.y+" tank id is:"+m.tankid+" dir is:"+m.dir.ordinal());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,17 +59,29 @@ public class MissileNewMsg implements Msg{
 	@Override
 	public void parse(DataInputStream dis) {
 		try {
-			int x = dis.readInt();
-			int y = dis.readInt();
 			int id = dis.readInt();
 			if (id == tc.myTank.id){
+				System.out.println("My tank's missile, get rid of it!");
 				return;
+			} else {
+				System.out.println("The id received's different from mine"+id+", continue!:"+tc.myTank.id);
 			}
-			m.dir = Direction.values()[dis.readInt()];
-			//System.out.println("Tank id of MissileNewMsg is:" + tankid + "   Need to check if tank id is equal to the id received in the packet!");
-			System.out.println("Datagram packet's parsed: x,y,id is:"+x+"  "+y+"  "+"  "+id +"now, added it into tc.misiles array list");
-			Missile m = new Missile(x,y,this.m.dir);
-			tc.missiles.add(m);    // here sould be some gus, does it need to send out, how to disginguish if the missile's myself and re-send?
+			int x = dis.readInt();
+			int y = dis.readInt();
+			System.out.println("x is:"+x+" y is:"+y);
+//			System.out.println("parse the it in missile new messag:x is:" + x + " y is:" + y + " id is:" + id+"dir is:"+i);
+			if (null == dis){
+				System.out.println("Why the hell is the dis's null???");
+			} else {
+				System.out.println("The dis's not null, but why dis.readint get null exceptin??");
+			}
+			if (null  == m){
+				System.out.println("the m's null, can't set value, will show exception!!");
+			}
+			Direction dir = Direction.values()[dis.readInt()];
+			boolean isGood = dis.readBoolean();
+			Missile m1 = new Missile(x, y, dir, tc,id,isGood);
+			tc.missiles.add(m1);    // here sould be some gus, does it need to send out, how to disginguish if the missile's myself and re-send?
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

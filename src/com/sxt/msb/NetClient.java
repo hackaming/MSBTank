@@ -73,7 +73,7 @@ public class NetClient {
 			DataInputStream dis = new DataInputStream (bais);
 			try {
 				int msgType = dis.readInt();
-				System.out.println("Message type is:" + msgType);
+				System.out.println("Received a message in NetClient.Message type is:" + msgType);
 				Msg msg = null;
 				switch (msgType){
 				case Msg.TANK_NEW_MSG:
