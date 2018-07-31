@@ -98,6 +98,10 @@ public class TankServer {
 						Direction dir = Direction.values()[dis.readInt()];
 						System.out.println("Server:Datagram packet's parsed: x,y,id is:"+x+"  "+y+"  "+"  "+id +"now, added it into tc.misiles array list,dir is"+dir);
 				 }
+				 if (msgType == 4){
+					 int x = dis.readInt();
+					 System.out.println("The Tank id that needs to be removed is:" + x);
+				 }
 				//Msg msg = null;
 /*				switch (msgType){
 				case Msg.TANK_NEW_MSG:

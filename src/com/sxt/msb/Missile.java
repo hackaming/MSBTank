@@ -75,8 +75,11 @@ public class Missile {
 		if (this.getRect().intersects(t.getRect()) && t.isLive() && this.isLive && (t.good != this.isGood)) {
 			t.setLive(false);
 			tc.tanks.remove(t);
-			this.isLive = false; 
-			tc.missiles.remove(this);
+			this.isLive = false; //will also needs to send out missiles neds to be removed.
+			tc.missiles.remove(this); // will needs to sent out tanks dead message and explode message.otherwise the dead tank in different client will not be removed.
+			TankDeadMsg tdm = new TankDeadMsg(t);
+			tc.nc.send(tdm);
+			System.out.println("The TankDeadMSG's newed in Missile and sent out!");
 			Explode e = new Explode(x,y,tc);
 			tc.explodes.add(e);
 			return false;

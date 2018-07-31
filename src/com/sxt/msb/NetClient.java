@@ -93,6 +93,10 @@ public class NetClient {
 					msg = new MissileNewMsg(NetClient.this.tc);
 					msg.parse(dis);
 					break;
+				case Msg.TANK_DEAD_MSG:
+					msg = new TankDeadMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
