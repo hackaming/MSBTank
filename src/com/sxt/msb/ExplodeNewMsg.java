@@ -25,6 +25,7 @@ public class ExplodeNewMsg implements Msg{
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
 			dos.writeInt(Msg.EXPLODE_NEW_MSG); //message type
+			System.out.println("!!!EXPLODE_NEW_MSG is write into packet");
 			dos.writeInt(e.x);
 			dos.writeInt(e.y);
 			dos.writeInt(e.tankid);

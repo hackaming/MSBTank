@@ -78,13 +78,15 @@ public class Missile {
 			this.isLive = false; //will also needs to send out missiles neds to be removed.
 			tc.missiles.remove(this); // will needs to sent out tanks dead message and explode message.otherwise the dead tank in different client will not be removed.
 			MissileDeadMsg mdm = new MissileDeadMsg(this);
-			System.out.println("The MissileDeadMsg newed in Missile and sent out! missile id is:"+this.missileID);
+			System.out.println("The MissileDeadMsg newed in Missile and sent out! missile id is:"+mdm.m.missileID);
 			tc.nc.send(mdm);
 			TankDeadMsg tdm = new TankDeadMsg(t);
 			tc.nc.send(tdm);
 			System.out.println("The TankDeadMSG's newed in Missile and sent out!");
 			Explode e = new Explode(x,y,tc);
 			tc.explodes.add(e);
+			ExplodeNewMsg enm = new ExplodeNewMsg(e);
+			tc.nc.send(enm);
 			return false;
 		}
 		return false;
