@@ -102,6 +102,10 @@ public class TankServer {
 					 int x = dis.readInt();
 					 System.out.println("The Tank id that needs to be removed is:" + x);
 				 }
+				 if (msgType == 5){
+					 int x = dis.readInt();
+					 System.out.println("The Dead Missile needs to be removed is:" + x);
+				 }
 				//Msg msg = null;
 /*				switch (msgType){
 				case Msg.TANK_NEW_MSG:

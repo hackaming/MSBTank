@@ -140,7 +140,6 @@ public class TankClient extends Frame {
 				}
 			});
 			b.addActionListener(new ActionListener(){
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String IP = tfIP.getText().trim();
