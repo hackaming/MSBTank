@@ -106,6 +106,11 @@ public class TankServer {
 					 int x = dis.readInt();
 					 System.out.println("The Dead Missile needs to be removed is:" + x);
 				 }
+				 if (msgType == 6){
+					 int x = dis.readInt();
+					 int y = dis.readInt();
+					 System.out.println("a new explode is received,x:" + x+"  y:"+y);
+				 }
 				//Msg msg = null;
 /*				switch (msgType){
 				case Msg.TANK_NEW_MSG:

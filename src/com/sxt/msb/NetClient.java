@@ -101,6 +101,10 @@ public class NetClient {
 					msg = new MissileDeadMsg(NetClient.this.tc);
 					msg.parse(dis);
 					break;
+				case Msg.EXPLODE_NEW_MSG:
+					msg = new ExplodeNewMsg(NetClient.this.tc);
+					msg.parse(dis);
+					break;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
