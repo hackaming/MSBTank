@@ -51,6 +51,8 @@ public class TankClient extends Frame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				TankDeadMsg tdm = new TankDeadMsg(myTank); //when exit the game, needs to send out tank dead message.
+				nc.send(tdm);
 				System.exit(0);
 			}
 		});
