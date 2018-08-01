@@ -8,9 +8,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
-
+import java.util.UUID;
 public class ExplodeNewMsg implements Msg{
 	int msgType = Msg.EXPLODE_NEW_MSG;
+	String UUIDmsg = UUID.randomUUID().toString();
+	
 	TankClient tc;
 	Explode e;
 	public ExplodeNewMsg(TankClient tc){
@@ -31,6 +33,7 @@ public class ExplodeNewMsg implements Msg{
 			dos.writeInt(e.y);
 			dos.writeInt(e.tankid);
 			dos.writeInt(e.explodeId);
+			//dos.writeChars(UUIDmsg);
 			System.out.println("Explode generated!");
 		} catch (IOException e1) {
 			e1.printStackTrace();

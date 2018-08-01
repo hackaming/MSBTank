@@ -53,6 +53,7 @@ public class TankClient extends Frame {
 			public void windowClosing(WindowEvent e) {
 				TankDeadMsg tdm = new TankDeadMsg(myTank); //when exit the game, needs to send out tank dead message.
 				nc.send(tdm);
+				//also needs to send out the network client's removed message so that the server realized that no needs to send message to this client anymore!
 				System.exit(0);
 			}
 		});

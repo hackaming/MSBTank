@@ -24,10 +24,12 @@ public class TankServer {
 				s = ss.accept();
 				DataInputStream dis = new DataInputStream(s.getInputStream());
 				int udpPort = dis.readInt();
+				String nsClientuuid = dis.readUTF();
+				System.out.println("The Client UUID is:"+nsClientuuid);
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream()); //send out the tank id;
 				dos.writeInt(tankID ++);
 				String ip = s.getInetAddress().getHostAddress();
-				Client c = new Client(ip,udpPort);
+				Client c = new Client(ip,udpPort,nsClientuuid);
 				clients.add(c);
 				System.out.println("A client's connected!"+s.getInetAddress()+":"+s.getPort()+" udp port is:" + udpPort+" IP is:" + ip);
 				dis.close();
@@ -52,9 +54,11 @@ public class TankServer {
 	private class Client{
 		private String sIP;
 		private int iUDPPort;
-		public Client(String ip, int udpPort){
+		private String uuid;
+		public Client(String ip, int udpPort,String uuid){
 			this.sIP = ip;
 			this.iUDPPort = udpPort;
+			this.uuid = uuid;
 		}
 	}
 	private class UDPThread implements Runnable{

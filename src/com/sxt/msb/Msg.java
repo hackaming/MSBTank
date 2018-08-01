@@ -9,6 +9,7 @@ public interface Msg {
 	public static final int MISSILE_NEW_MSG = 3;
 	public static final int MISSILE_DEAD_MSG = 5;
 	public static final int EXPLODE_NEW_MSG = 6;
+	public static final int NETCLIENT_DEAD_MSG = 7;
 	public void send (DatagramSocket ds,String IP,int udpPort);
 	public void parse (DataInputStream dis);
 }

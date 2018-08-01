@@ -7,11 +7,13 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.io.*;
+import java.util.UUID;
 public class NetClient {
 	private static int UDP_PORT_START = 2246;
 	private int udpPort;
 	TankClient tc = null;
 	DatagramSocket ds = null;
+	String uuid = UUID.randomUUID().toString();
 	public NetClient(TankClient tc){
 		this.tc = tc;
 	}
@@ -28,6 +30,8 @@ public class NetClient {
 			s = new Socket(sIP,port);
 			DataOutputStream dos= new DataOutputStream(s.getOutputStream());
 			dos.writeInt(udpPort);
+			dos.writeUTF(uuid); // write the uuid
+			System.out.println("The NS uuid is:" + uuid);
 			DataInputStream dis =  new DataInputStream(s.getInputStream()); // get the tank id and bind it.
 			tc.myTank.id=dis.readInt();
 			if (tc.myTank.id %2 == 0){
@@ -111,7 +115,6 @@ public class NetClient {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	public int getUdpPort() {
 		return udpPort;
