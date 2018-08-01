@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class ExplodeNewMsg implements Msg{
+	int msgType = Msg.EXPLODE_NEW_MSG;
 	TankClient tc;
 	Explode e;
 	public ExplodeNewMsg(TankClient tc){

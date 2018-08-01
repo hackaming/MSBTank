@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class TankNewMsg implements Msg{
-	int msgType;
+	int msgType = Msg.TANK_NEW_MSG;
 	Tank tank;
 	TankClient tc;
 	public TankNewMsg(Tank tank){

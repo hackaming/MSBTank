@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class MissileDeadMsg implements Msg{
+	int msgType = Msg.MISSILE_DEAD_MSG;
 	Tank t;
 	Missile m;
 	TankClient tc;

@@ -11,6 +11,7 @@ import java.net.SocketException;
 
 public class MissileNewMsg implements Msg{ //should add some id to the message so when the tankclient receive it, it will not re-write it when it added to the missileslist.
 	DatagramSocket ds = null;
+	int msgType = Msg.MISSILE_NEW_MSG;
 	Missile m;
 	//private int x;
 	//private int y;

@@ -13,6 +13,7 @@ import java.net.SocketException;
 public class TankDeadMsg implements Msg{
 	TankClient tc;
 	Tank t;
+	int msgType = Msg.TANK_DEAD_MSG;
 	public TankDeadMsg(TankClient tc){
 		this.tc = tc;
 	}

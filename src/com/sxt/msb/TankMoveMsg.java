@@ -11,7 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class TankMoveMsg  implements Msg{
-	private int msgType;
+	private int msgType = Msg.TANK_MOVE_MSG;
 	private int id;
 	private int x;
 	private int y;
@@ -57,8 +57,6 @@ public class TankMoveMsg  implements Msg{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	@Override
@@ -91,8 +89,6 @@ public class TankMoveMsg  implements Msg{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	public int getMsgType() {
 		return msgType;
