@@ -169,9 +169,9 @@ public class Tank {
 		if (dir != Direction.STOP) {
 			ptDir = dir;
 		}
-		if (oldDir != this.dir){
+		if (oldDir != this.dir){ // for good tank, move here, for bad tank, needs to move in move method.
 			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc,ptDir);
-			System.out.println("From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
+			System.out.println("For good tank, moves in location method.From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
 			tc.nc.send(msg);
 		}
 	}
@@ -227,6 +227,10 @@ public class Tank {
 			step--;
 			if (r.nextInt(40) > 38)
 				this.fire();
+			
+			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc,ptDir);
+			System.out.println("For bad tank, moves in location method.From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
+			tc.nc.send(msg);
 		}
 	}
 
