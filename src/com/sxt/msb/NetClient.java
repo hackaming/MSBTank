@@ -62,6 +62,7 @@ public class NetClient {
 	public void send(Msg msg){
 		msg.send(ds, "127.0.0.1", TankServer.UDPPORT);
 	}
+	// Needs to add a sync thread here....to sync all the objects from the server??
 	private class UDPThread implements Runnable{
 		byte[] buf = new byte[1024];
 		public void run() {

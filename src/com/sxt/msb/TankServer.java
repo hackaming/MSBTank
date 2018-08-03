@@ -61,6 +61,7 @@ public class TankServer {
 			this.uuid = uuid;
 		}
 	}
+	//needs to add a sync thread here, to sync all the objects in the game?because now seems the latter joined player sometimes can't see some tank or some missiles will show randomly..
 	private class UDPThread implements Runnable{
 		byte[] buf = new byte[1024];
 		@Override
