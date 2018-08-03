@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class Tank {
+	int id;
 	public static final int XSPEED = 5;
 	public static final int YSPEED = 5;
 	public static final int WIDTH = 30;
@@ -14,12 +15,8 @@ public class Tank {
 	int x, y;
 	private boolean bL = false, bR = false, bU = false, bD = false;
 	private boolean isLive = true;
-	private Direction dir = Direction.STOP;
-	private Direction ptDir = Direction.D;
-
-	enum Direction {
-		L, LU, U, RU, R, RD, D, LD, STOP
-	};
+	Direction dir = Direction.STOP;
+	Direction ptDir = Direction.D;
 
 	private TankClient tc = null;
 	boolean good = true;
@@ -42,6 +39,15 @@ public class Tank {
 		this.y = y;
 		this.tc = tc;
 		this.good = good;
+	}
+
+	public Tank(int x, int y, TankClient tc, boolean good,Direction dir) {
+		this.x = x;
+		this.y = y;
+		this.tc = tc;
+		this.good = good;
+		this.dir = dir;
+
 	}
 
 	public void draw(Graphics g) {
@@ -132,12 +138,16 @@ public class Tank {
 	public Missile fire() {
 		int x = this.x + Tank.WIDTH / 2 - Missile.MISSLEWIDTH / 2;
 		int y = this.y + Tank.HEIGHT - Missile.MISSLEHEIGHT / 2;
-		Missile m = new Missile(x, y, ptDir, tc);
+		Missile m = new Missile(x, y, ptDir, tc,id,this.good);
 		tc.missiles.add(m);
+		MissileNewMsg mns = new MissileNewMsg(m);
+		System.out.println("New missile generated, id is:" + id);
+		tc.nc.send(mns);
 		return m;
 	}
 
 	public void locationDirection() {
+		Direction oldDir = this.dir;
 		if (bL && !bU && !bR && !bD)
 			dir = Direction.L;
 		else if (!bL && bU && !bR && !bD)
@@ -158,6 +168,11 @@ public class Tank {
 			dir = Direction.STOP;
 		if (dir != Direction.STOP) {
 			ptDir = dir;
+		}
+		if (oldDir != this.dir){
+			TankMoveMsg msg = new TankMoveMsg(id,x,y,dir,tc,ptDir);
+			System.out.println("From tank, the new generated TankMoveMsg's type is:"+msg.getMsgType()+"Now call th tc.nc.send(msg) to send out to server.");
+			tc.nc.send(msg);
 		}
 	}
 

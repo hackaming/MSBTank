@@ -1,6 +1,8 @@
 package com.sxt.msb;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -18,7 +20,8 @@ public class TankClient extends Frame {
 	List<Tank> tanks = new ArrayList<Tank>();
 	List<Missile> missiles= new ArrayList<Missile>();
 	List<Explode> explodes = new ArrayList<Explode>();
-
+	NetClient nc = new NetClient(this);
+	ConnectDiag dialog = new ConnectDiag();
 	@Override
 	public void update(Graphics g) {
 		if (offScreenImage == null) {
@@ -48,6 +51,9 @@ public class TankClient extends Frame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				TankDeadMsg tdm = new TankDeadMsg(myTank); //when exit the game, needs to send out tank dead message.
+				nc.send(tdm);
+				//also needs to send out the network client's removed message so that the server realized that no needs to send message to this client anymore!
 				System.exit(0);
 			}
 		});
@@ -56,9 +62,9 @@ public class TankClient extends Frame {
 		this.setVisible(true);
 		new Thread(new PaintThread()).start();
 		myTank = new Tank(50, 50, this);
-		
 		tanks.add(myTank);
-		
+		//nc.connect("127.0.0.1", TankServer.TCPPORT);
+		dialog.setVisible(true);
 	}
 	public void generateBadTank(){
 		Tank badTank = new Tank(50, 50, this,false);
@@ -69,14 +75,13 @@ public class TankClient extends Frame {
 		g.drawString("Missiles count:"+missiles.size(), 10, 50);
 		g.drawString("Tank count:"+tanks.size(), 10, 70);
 		g.drawString("Explode count:"+explodes.size(), 10, 90);
+		g.drawString("id:"+myTank.id, 10, 110);
 		for (int i=0;i<missiles.size();i++){
 			Missile m = missiles.get(i);
 			m.draw(g);
 			for (int j=0;j<tanks.size();j++){
 				Tank t = tanks.get(j);
-				if (!t.good) {
-					m.hitTank(t);
-				}
+				if (t.id!=myTank.id) m.hitTank(t);
 			}
 		}
 		for (int i=0;i<tanks.size();i++){
@@ -112,5 +117,44 @@ public class TankClient extends Frame {
 			}
 			myTank.keyPressed(e);
 		}
+	}
+	private class ConnectDiag extends Dialog{
+		Button b = new Button("OK");
+		TextField tfIP = new TextField("127.0.0.1",12);
+		TextField tfPort = new TextField(""+TankServer.TCPPORT);
+		TextField tfMyUDPPort = new TextField("2223",4);
+		public ConnectDiag() {
+			super(TankClient.this,true);
+			this.setLayout(new FlowLayout());
+			this.add(new Label("IP:"));
+			this.add(tfIP);
+			this.add(new Label("Port:"));
+			this.add(tfPort);
+			this.add(new Label("My UDP Port:"));
+			this.add(tfMyUDPPort);
+			this.add(b);
+			this.setLocation(300,300);
+			this.pack();
+			this.addWindowFocusListener(new WindowAdapter(){
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					setVisible(false);
+				}
+			});
+			b.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String IP = tfIP.getText().trim();
+					int port = Integer.parseInt(tfPort.getText().trim());
+					int myUDPPort = Integer.parseInt(tfMyUDPPort.getText().trim());
+					nc.setUdpPort(myUDPPort);
+					nc.connect(IP, port);
+					setVisible(false);
+				}
+				
+			});
+		}
+		
 	}
 }
